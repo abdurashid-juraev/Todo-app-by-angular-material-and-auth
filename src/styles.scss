@@ -11,3 +11,8 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+//------conflict style in TailwindCSS and the angular material-----------
+.mdc-notched-outline__notch {
+  border-right: none;
+}
