@@ -1,13 +1,28 @@
 .todo-input {
   @apply h-14 mr-3 w-96 rounded-md;
+  flex: 1;
+  margin-right: 1rem;
 }
 .add-btn {
-  @apply h-14 rounded-md;
+  @apply h-14 w-24 rounded-md;
+  height: 56px;
+  padding: 0 2rem;
 }
 button[mat-fab] {
-  @apply bg-transparent;
-
   .mat-icon {
     @apply text-red-500;
   }
+}
+.completed {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+li {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+mat-form-field {
+  width: 100%;
 }
