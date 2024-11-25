@@ -1,1 +1,18 @@
-<app-form></app-form>
+<form #form="ngForm" (ngSubmit)="onSubmit()" class="pt-5 flex items-center">
+  <mat-form-field class="todo-input" appearance="outline">
+    <mat-label>Enter Todo</mat-label>
+    <input type="text" matInput [(ngModel)]="todo" name="todo" required />
+  </mat-form-field>
+  <button class="add-btn" type="submit" [disabled]="!form.valid" mat-flat-button>
+
+    Add
+  </button>
+</form>
+<ul class="mt-6">
+  <li class="px-2 py-4 mb-4 outline outline-1 flex justify-between items-center outline-slate-600 rounded-sm">
+    <div>{{todo}}</div>
+    <div><button class="d-btn" color="blue" mat-fab aria-label="delete icon">
+        <mat-icon>delete</mat-icon>
+      </button></div>
+  </li>
+</ul>
