@@ -10,43 +10,42 @@
 
 <ul class="mt-6 list-none">
   <li *ngFor="let todo of todos"
-    class="px-4 py-3 mb-3 outline outline-1 flex justify-between items-center outline-slate-600 rounded-sm">
-    <!-- View Mode -->
-    <div *ngIf="editingTodo?.id !== todo.id">
-      {{todo.text}}
+    class="px-4 py-3 mb-3 outline outline-1 flex justify-between items-center outline-slate-600 rounded-sm"
+    [class.completed]="todo.completed">
+    
+    <div *ngIf="editingTodo?.id !== todo.id" class="flex items-center gap-3 flex-grow">
+      <button mat-icon-button color="primary" (click)="toggleComplete(todo)">
+        <mat-icon>{{todo.completed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+      </button>
+      <span [class.line-through]="todo.completed">{{todo.text}}</span>
     </div>
 
-    <!-- Edit Mode -->
     <div *ngIf="editingTodo?.id === todo.id" class="flex-grow">
       <mat-form-field class="w-full">
-        <input matInput [(ngModel)]="editingTodo" name="editTodo" (keyup.enter)="updateTodo(todo.id)"
-          (blur)="updateTodo(todo.id)">
+        <input matInput [(ngModel)]="editingTodo.text" name="editTodo" 
+               (keyup.enter)="updateTodo(todo.id)"
+               (keyup.escape)="cancelEditing()">
       </mat-form-field>
-      <div class="flex gap-2">
-        <!-- View Mode Actions -->
-        <ng-container *ngIf="editingTodo?.id !== todo.id">
-          <button mat-icon-button color="primary" (click)="startEditing(todo)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteTodo(todo.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </ng-container>
+    </div>
 
-        <!-- Edit Mode Actions -->
-        <ng-container *ngIf="editingTodo?.id === todo.id">
-          <button mat-icon-button color="primary" (click)="updateTodo(todo.id)">
-            <mat-icon>check</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="cancelEditing()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </ng-container>
-      </div>
+    <div class="flex gap-2">
+      <ng-container *ngIf="editingTodo?.id !== todo.id">
+        <button mat-icon-button color="primary" (click)="startEditing(todo)" 
+                [disabled]="todo.completed">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTodo(todo.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="editingTodo?.id === todo.id">
+        <button mat-icon-button color="primary" (click)="updateTodo(todo.id)">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="cancelEditing()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
     </div>
   </li>
 </ul>
-
-<div *ngIf="todos.length === 0" class="text-center mt-8 text-gray-500">
-  No todos yet. Add one above!
-</div>
