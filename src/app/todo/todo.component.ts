@@ -6,13 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-interface TodoItem {
-  id: number;
-  text: string;
-  completed: boolean;
-}
-
+import { TodoItem } from '../models/models';
 @Component({
   selector: 'app-todo',
   standalone: true,
@@ -31,7 +25,7 @@ interface TodoItem {
 export class TodoComponent implements OnInit {
   todos: TodoItem[] = [];
   newTodo: string = '';
-  editingTodo: { id: number, text: string } | any;
+  editingTodo: { id: number; text: string } | any;
 
   ngOnInit(): void {
     const savedTodos = localStorage.getItem('todos');
@@ -49,7 +43,7 @@ export class TodoComponent implements OnInit {
       const newTodoItem: TodoItem = {
         id: Date.now(),
         text: this.newTodo.trim(),
-        completed: false
+        completed: false,
       };
       this.todos.push(newTodoItem);
       this.newTodo = '';
@@ -63,7 +57,7 @@ export class TodoComponent implements OnInit {
 
   updateTodo(id: number): void {
     if (this.editingTodo) {
-      const index = this.todos.findIndex(todo => todo.id === id);
+      const index = this.todos.findIndex((todo) => todo.id === id);
       if (index !== -1 && this.editingTodo.text.trim()) {
         this.todos[index].text = this.editingTodo.text.trim();
         this.saveTodos();
@@ -78,7 +72,7 @@ export class TodoComponent implements OnInit {
   }
 
   deleteTodo(id: number): void {
-    this.todos = this.todos.filter(todo => todo.id !== id);
+    this.todos = this.todos.filter((todo) => todo.id !== id);
     this.saveTodos();
   }
 

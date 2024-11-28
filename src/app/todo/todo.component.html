@@ -12,7 +12,7 @@
   <li *ngFor="let todo of todos"
     class="px-4 py-3 mb-3 outline outline-1 flex justify-between items-center outline-slate-600 rounded-sm"
     [class.completed]="todo.completed">
-    
+
     <div *ngIf="editingTodo?.id !== todo.id" class="flex items-center gap-3 flex-grow">
       <button mat-icon-button color="primary" (click)="toggleComplete(todo)">
         <mat-icon>{{todo.completed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
@@ -22,16 +22,14 @@
 
     <div *ngIf="editingTodo?.id === todo.id" class="flex-grow">
       <mat-form-field class="w-full">
-        <input matInput [(ngModel)]="editingTodo.text" name="editTodo" 
-               (keyup.enter)="updateTodo(todo.id)"
-               (keyup.escape)="cancelEditing()">
+        <input matInput [(ngModel)]="editingTodo.text" name="editTodo" (keyup.enter)="updateTodo(todo.id)"
+          (keyup.escape)="cancelEditing()">
       </mat-form-field>
     </div>
 
     <div class="flex gap-2">
       <ng-container *ngIf="editingTodo?.id !== todo.id">
-        <button mat-icon-button color="primary" (click)="startEditing(todo)" 
-                [disabled]="todo.completed">
+        <button mat-icon-button color="primary" (click)="startEditing(todo)" [disabled]="todo.completed">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="deleteTodo(todo.id)">
