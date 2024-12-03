@@ -1,12 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
+
+/** @title Input with a custom ErrorStateMatcher */
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  imports: [
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class LoginComponent {
+  hide = signal(true);
+  clickEvent(event: MouseEvent): void {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 
+  matcher = new MyErrorStateMatcher();
 }
