@@ -3,3 +3,8 @@ export interface TodoItem {
   text: string;
   completed: boolean;
 }
+
+export interface UserInfo{
+  username:string;
+  email:string;
+}
