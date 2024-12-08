@@ -30,7 +30,6 @@ import { CommonModule } from '@angular/common';
 })
 export class RegComponent {
   hide = signal(true);
-  // formGroup!: FormGroup;
   clickEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -51,6 +50,9 @@ export class RegComponent {
     { validators: this.passwordsMatch }
   );
 
+  get usernameControl() {
+    return this.regForm.get('username');
+  }
   get emailControl() {
     return this.regForm.get('email');
   }
@@ -62,8 +64,8 @@ export class RegComponent {
     return this.regForm.get('confirmPassword');
   }
   passwordsMatch(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value.trim();
-    const confirmPassword = control.get('confirmPassword')?.value.trim();
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
     return password && confirmPassword && password === confirmPassword
       ? null
       : { passwordMismatch: true };
@@ -92,7 +94,6 @@ export class RegComponent {
     if (emailControl && emailControl.value) {
       emailControl.setValue(emailControl.value.trim());
     }
-    console.warn(this.regForm);
     console.warn(this.regForm.errors);
   }
 }

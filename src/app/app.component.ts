@@ -3,10 +3,18 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './pages/login/login.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, RegComponent, CommonModule, HttpClientModule],
+  imports: [
+    RouterModule,
+    // RegComponent,
+    CommonModule,
+    HttpClientModule,
+    HttpClientModule,
+    LoginComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

@@ -3,11 +3,15 @@
   <mat-form-field class="w-full">
     <mat-label>Username</mat-label>
     <input type="text" name="username" matInput formControlName="username" required placeholder="Ex. Jhon Doe">
+    <mat-error *ngIf="usernameControl?.hasError('required')">
+      Username is required
+    </mat-error>
     <!-- <small *ngIf="regForm.controls['username'].errors?.['required']">Name is mandatory</small> -->
   </mat-form-field>
   <mat-form-field class="w-full mb-3">
     <mat-label>Email</mat-label>
-    <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+    <input type="email" matInput formControlName="email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      placeholder="Ex. pat@example.com">
     <mat-error *ngIf="emailControl?.hasError('required')">
       Email is required
     </mat-error>
@@ -43,7 +47,7 @@
     </button>
     <mat-error *ngIf="confirmPasswordControl?.hasError('required')">
       Confirm password is required</mat-error>
-    <mat-error *ngIf="regForm.hasError('passwordMismatch')">
+    <mat-error *ngIf="regForm.hasError('passwordsmatch')">
       Passwords do not match</mat-error>
   </mat-form-field>
   <div class="flex justify-center">

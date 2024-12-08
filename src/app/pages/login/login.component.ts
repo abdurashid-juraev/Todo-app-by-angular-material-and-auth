@@ -1,34 +1,18 @@
 import { Component, signal } from '@angular/core';
 import {
   FormControl,
-  FormGroupDirective,
-  NgForm,
+  FormGroup,
   Validators,
+  ValidationErrors,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
-
-/** @title Input with a custom ErrorStateMatcher */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -41,18 +25,33 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
+    CommonModule,
   ],
 })
 export class LoginComponent {
   hide = signal(true);
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+  });
   clickEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 
-  matcher = new MyErrorStateMatcher();
+  get emailControl() {
+    return this.loginForm.get('email');
+  }
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+  onSubmit(): void {
+    if (this.emailControl && this.emailControl.value) {
+      this.emailControl.setValue(this.emailControl.value.trim());
+    }
+    console.log(this.loginForm);
+  }
 }

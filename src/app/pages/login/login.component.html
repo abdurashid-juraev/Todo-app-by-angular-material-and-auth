@@ -1,25 +1,25 @@
 <h1 class="text-center">Log in</h1>
-<form class=" w-4/12 mx-auto">
+<form class=" w-4/12 mx-auto" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="w-full">
     <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+    <input type="email" matInput formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required
       placeholder="Ex. pat@example.com">
-    @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-    <mat-error>Please enter a valid email address</mat-error>
-    }
-    @if (emailFormControl.hasError('required')) {
-    <mat-error>Email is <strong>required</strong></mat-error>
-    }
+    <mat-error *ngIf="emailControl?.hasError('required')">
+      Email is required
+    </mat-error>
+    <mat-error *ngIf="emailControl?.hasError('email')"> Invalid email address</mat-error>
   </mat-form-field>
   <mat-form-field class="w-full mt-6">
     <mat-label>Enter your password</mat-label>
-    <input matInput [type]="hide() ? 'password' : 'text'" />
+    <input formControlName="password" matInput [type]="hide() ? 'password' : 'text'" />
+    <mat-error *ngIf="passwordControl?.hasError('required')">
+      Password is required</mat-error>
     <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hide()">
       <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
   </mat-form-field>
   <div class="flex justify-center">
-    <button class="btn" type="submit" mat-flat-button color="primary"> Sign in</button>
+    <button class="btn" type="submit" mat-flat-button color="primary" [disabled]="!loginForm.valid"> Sign in</button>
   </div>
 </form>
