@@ -3,7 +3,6 @@ import {
   FormControl,
   FormGroup,
   Validators,
-  ValidationErrors,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -12,7 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-
+import { RouterLink, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -26,12 +26,19 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    RouterModule,
+    RouterLink,
+    MatCardModule,
   ],
 })
 export class LoginComponent {
   hide = signal(true);
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+    ]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),

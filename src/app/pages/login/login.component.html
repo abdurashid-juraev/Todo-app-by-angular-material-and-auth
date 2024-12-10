@@ -1,25 +1,32 @@
-<h1 class="text-center">Log in</h1>
-<form class=" w-4/12 mx-auto" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <mat-form-field class="w-full">
-    <mat-label>Email</mat-label>
-    <input type="email" matInput formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required
-      placeholder="Ex. pat@example.com">
-    <mat-error *ngIf="emailControl?.hasError('required')">
-      Email is required
-    </mat-error>
-    <mat-error *ngIf="emailControl?.hasError('email')"> Invalid email address</mat-error>
-  </mat-form-field>
-  <mat-form-field class="w-full mt-6">
-    <mat-label>Enter your password</mat-label>
-    <input formControlName="password" matInput [type]="hide() ? 'password' : 'text'" />
-    <mat-error *ngIf="passwordControl?.hasError('required')">
-      Password is required</mat-error>
-    <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hide()">
-      <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-    </button>
-  </mat-form-field>
-  <div class="flex justify-center">
-    <button class="btn" type="submit" mat-flat-button color="primary" [disabled]="!loginForm.valid"> Sign in</button>
-  </div>
-</form>
+<mat-card class=" p-6 mx-auto" appearance="outlined">
+  <mat-card-header class="mb-4 flex justify-center">
+    <mat-card-title class="title">Log in</mat-card-title>
+  </mat-card-header>
+
+  <form class="w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required
+        placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="emailControl?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="emailControl?.hasError('email')"> Invalid email address</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mt-6" appearance="outline">
+      <mat-label>Enter your password</mat-label>
+      <input formControlName="password" matInput [type]="hide() ? 'password' : 'text'" />
+      <mat-error *ngIf="passwordControl?.hasError('required')">
+        Password is required</mat-error>
+      <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="flex justify-center mb-12">
+      <button class="btn" type="submit" mat-flat-button color="primary" [disabled]="!loginForm.valid"> Sign in</button>
+    </div>
+    <p class="">Don't have an account? <a class="text-blue-500 cursor-pointer" routerLink="/reg">Sign up</a></p>
+  </form>
+
+</mat-card>

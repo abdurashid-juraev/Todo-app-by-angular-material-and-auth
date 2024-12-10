@@ -1,6 +1,6 @@
 <h1 class="text-center">Register</h1>
 <form class=" w-4/12 mx-auto" [formGroup]="regForm" (ngSubmit)="onSubmit()">
-  <mat-form-field class="w-full">
+  <mat-form-field class="w-full mb-3" appearance="outline">
     <mat-label>Username</mat-label>
     <input type="text" name="username" matInput formControlName="username" required placeholder="Ex. Jhon Doe">
     <mat-error *ngIf="usernameControl?.hasError('required')">
@@ -8,7 +8,7 @@
     </mat-error>
     <!-- <small *ngIf="regForm.controls['username'].errors?.['required']">Name is mandatory</small> -->
   </mat-form-field>
-  <mat-form-field class="w-full mb-3">
+  <mat-form-field class="w-full mb-3" appearance="outline">
     <mat-label>Email</mat-label>
     <input type="email" matInput formControlName="email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
       placeholder="Ex. pat@example.com">
@@ -19,9 +19,9 @@
       Invalid email address
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="w-full">
+  <mat-form-field class="w-full mb-5" appearance="outline">
     <mat-label>Enter your password</mat-label>
-    <input matInput formControlName="password" [type]="hide() ? 'password' : 'text'" />
+    <input required matInput formControlName="password" [type]="hide() ? 'password' : 'text'" />
     <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hide()">
       <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -30,27 +30,28 @@
       Password is required</mat-error>
     <mat-error *ngIf="passwordControl?.hasError('minlength')">
       Password must be at least 8 characters long</mat-error>
-    <mat-error *ngIf="passwordControl?.hasError('noUppercase')">
+    <mat-error *ngIf="passwordControl?.hasError('containUppercase')">
       Password must contain at least one uppercase letter</mat-error>
-    <mat-error *ngIf="passwordControl?.hasError('noLowercase')">
+    <mat-error *ngIf="passwordControl?.hasError('containLowercase')">
       Password must contain at least one lowercase letter</mat-error>
-    <mat-error *ngIf="passwordControl?.hasError('noNumber')">
+    <mat-error *ngIf="passwordControl?.hasError('containNumber')">
       Password must contain at least one number</mat-error>
   </mat-form-field>
-  <mat-form-field class="w-full">
+  <mat-form-field class="w-full" appearance="outline">
     <mat-label>Confirm password</mat-label>
     <input matInput formControlName="confirmPassword" placeholder="Re-enter your password"
-      [type]="hide() ? 'password' : 'text'" />
-    <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hide()">
-      <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      [type]="hideConfirm() ? 'password' : 'text'" />
+    <button mat-icon-button matSuffix (click)="clickEventConfirm($event)" [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hideConfirm()">
+      <mat-icon>{{hideConfirm() ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
     <mat-error *ngIf="confirmPasswordControl?.hasError('required')">
       Confirm password is required</mat-error>
     <mat-error *ngIf="regForm.hasError('passwordsmatch')">
       Passwords do not match</mat-error>
   </mat-form-field>
-  <div class="flex justify-center">
+  <div class="flex justify-center mb-12">
     <button class="btn" type="submit" mat-flat-button color="primary" [disabled]="!regForm.valid">Sign up</button>
   </div>
+  <p>Already have an account? <a class="text-blue-500" routerLink="/login">Log in</a></p>
 </form>

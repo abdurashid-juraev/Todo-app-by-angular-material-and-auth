@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-reg',
   standalone: true,
@@ -26,24 +27,32 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    RouterLink,
   ],
 })
 export class RegComponent {
   hide = signal(true);
+  hideConfirm = signal(true);
   clickEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+  clickEventConfirm(event: MouseEvent): void {
+    this.hideConfirm.set(!this.hideConfirm());
     event.stopPropagation();
   }
   regForm = new FormGroup(
     {
       username: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+      ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        this.containUppercase,
-        this.containsLowercase,
-        this.containsNumber,
+        this.passwordValidators,
       ]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
@@ -70,19 +79,24 @@ export class RegComponent {
       ? null
       : { passwordMismatch: true };
   }
+  passwordValidators(control: AbstractControl): ValidationErrors | null {
+    const value = control.value || '';
+    const errors: ValidationErrors = {};
 
-  containUppercase(control: AbstractControl): ValidationErrors | null {
-    const hasUppercase = /[A-Z]/.test(control.value || '');
-    return hasUppercase ? null : { noUppercase: true };
+    if (!/[A-Z]/.test(value)) {
+      errors['containUppercase'] =
+        'Password must contain at least one uppercase letter.';
+    }
+    if (!/[a-z]/.test(value)) {
+      errors['containLowercase'] =
+        'Password must contain at least one lowercase letter.';
+    }
+    if (!/[0-9]/.test(value)) {
+      errors['containNumber'] = 'Password must contain at least one number.';
+    }
+    return Object.keys(errors).length ? errors : null;
   }
-  containsLowercase(control: AbstractControl): ValidationErrors | null {
-    const hasLowercase = /[a-z]/.test(control.value || '');
-    return hasLowercase ? null : { noLowercase: true };
-  }
-  containsNumber(control: AbstractControl): ValidationErrors | null {
-    const hasNumber = /[0-9]/.test(control.value || '');
-    return hasNumber ? null : { noNumber: true };
-  }
+
   onSubmit(): void {
     const usernameControl = this.regForm.get('username');
     const emailControl = this.regForm.get('email');
