@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-reg',
   standalone: true,
@@ -28,6 +29,7 @@ import { RouterLink } from '@angular/router';
     MatIconModule,
     CommonModule,
     RouterLink,
+    MatCardModule,
   ],
 })
 export class RegComponent {
