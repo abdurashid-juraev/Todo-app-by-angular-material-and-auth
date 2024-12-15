@@ -120,11 +120,11 @@ export class RegComponent {
     delete postData.confirmPassword;
     this.registerServise.registerUser(postData as RegisterPostData).subscribe({
       next: (res) => {
-        console.log(res);
+        alert('Registration successful');
         this.router.navigate(['login']);
       },
       error: (err) => {
-        console.log(err);
+        alert(err.error.message);
       },
     });
     console.warn(this.regForm.errors);

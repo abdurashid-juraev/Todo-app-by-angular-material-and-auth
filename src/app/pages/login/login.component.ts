@@ -73,7 +73,7 @@ export class LoginComponent {
           this.router.navigate(['home']);
         } else {
           alert('Invalid email or password');
-          this.router.navigate(['login']);
+          // this.router.navigate(['login']);
         }
       },
     });

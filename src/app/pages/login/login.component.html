@@ -6,7 +6,7 @@
   <form class="w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="w-full" appearance="outline">
       <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required
+      <input type="email" matInput formControlName="email" pattern=".+@.+\..+" required
         placeholder="Ex. pat@example.com">
       <mat-error *ngIf="emailControl?.hasError('required')">
         Email is required

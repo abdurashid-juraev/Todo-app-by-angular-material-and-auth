@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TodoItem } from '../models/models';
+import { TodoItem } from '../../models/models';
 @Component({
   selector: 'app-todo',
   standalone: true,

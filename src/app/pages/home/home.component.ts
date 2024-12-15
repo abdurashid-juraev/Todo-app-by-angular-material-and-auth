@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TodoComponent } from '../../todo/todo.component';
+import { TodoComponent } from '../../component/todo/todo.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   private router = inject(Router);
 
-  logout() {
+  logout(): void {
     sessionStorage.clear();
     this.router.navigate(['login']);
   }
