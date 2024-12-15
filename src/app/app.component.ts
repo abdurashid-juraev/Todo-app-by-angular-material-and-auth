@@ -16,7 +16,7 @@ export class AppComponent {
   ngOnInit() {
     this.http.get('http://localhost:3000/users').subscribe((data: any) => {
       this.users = data;
-      console.log(data);
+      // console.log(data);
     });
   }
 }

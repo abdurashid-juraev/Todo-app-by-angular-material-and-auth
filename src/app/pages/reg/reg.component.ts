@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,8 +13,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../service/auth.service';
+import { RegisterPostData } from '../../models/models';
 @Component({
   selector: 'app-reg',
   standalone: true,
@@ -28,11 +30,13 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatIconModule,
     CommonModule,
-    RouterLink,
+    RouterModule,
     MatCardModule,
   ],
 })
 export class RegComponent {
+  constructor(private router: Router) {}
+  private registerServise = inject(AuthService);
   hide = signal(true);
   hideConfirm = signal(true);
   clickEvent(event: MouseEvent): void {
@@ -98,7 +102,7 @@ export class RegComponent {
     return Object.keys(errors).length ? errors : null;
   }
 
-  onSubmit(): void {
+  trimTab(): void {
     const usernameControl = this.regForm.get('username');
     const emailControl = this.regForm.get('email');
 
@@ -109,6 +113,20 @@ export class RegComponent {
     if (emailControl && emailControl.value) {
       emailControl.setValue(emailControl.value.trim());
     }
+  }
+  onSubmit(): void {
+    this.trimTab();
+    const postData = { ...this.regForm.value };
+    delete postData.confirmPassword;
+    this.registerServise.registerUser(postData as RegisterPostData).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.router.navigate(['login']);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
     console.warn(this.regForm.errors);
   }
 }

@@ -13,8 +13,7 @@
     </mat-form-field>
     <mat-form-field class="w-full mb-3" appearance="outline">
       <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-        placeholder="Ex. pat@example.com">
+      <input type="email" matInput formControlName="email" required placeholder="Ex. pat@example.com">
       <mat-error *ngIf="emailControl?.hasError('required')">
         Email is required
       </mat-error>
@@ -25,7 +24,7 @@
     <mat-form-field class="w-full mb-5" appearance="outline">
       <mat-label>Enter your password</mat-label>
       <input required matInput formControlName="password" [type]="hide() ? 'password' : 'text'" />
-      <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+      <button type="button" mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hide()">
         <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
@@ -44,8 +43,8 @@
       <mat-label>Confirm password</mat-label>
       <input matInput formControlName="confirmPassword" placeholder="Re-enter your password"
         [type]="hideConfirm() ? 'password' : 'text'" />
-      <button mat-icon-button matSuffix (click)="clickEventConfirm($event)" [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hideConfirm()">
+      <button type="button" mat-icon-button matSuffix (click)="clickEventConfirm($event)"
+        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirm()">
         <mat-icon>{{hideConfirm() ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
       <mat-error *ngIf="confirmPasswordControl?.hasError('required')">

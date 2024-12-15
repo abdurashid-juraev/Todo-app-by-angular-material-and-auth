@@ -18,11 +18,14 @@ button[mat-fab] {
 }
 li {
   transition: all 0.3s ease;
-  
+
   &:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
 mat-form-field {
   width: 100%;
+}
+.h1 {
+  @apply text-2xl  m-0;
 }

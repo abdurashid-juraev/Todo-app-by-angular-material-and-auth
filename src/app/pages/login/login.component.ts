@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,8 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -37,7 +38,7 @@ export class LoginComponent {
     email: new FormControl('', [
       Validators.required,
       Validators.email,
-      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -55,10 +56,27 @@ export class LoginComponent {
   get passwordControl() {
     return this.loginForm.get('password');
   }
-  onSubmit(): void {
+  trimTab(): void {
     if (this.emailControl && this.emailControl.value) {
       this.emailControl.setValue(this.emailControl.value.trim());
     }
-    console.log(this.loginForm);
+  }
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  onSubmit(): void {
+    this.trimTab();
+    const { email, password } = this.loginForm.value;
+    this.authService.getUserDetails(email!, password!).subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          sessionStorage.setItem('email', email!);
+          this.router.navigate(['home']);
+        } else {
+          alert('Invalid email or password');
+          this.router.navigate(['login']);
+        }
+      },
+    });
+    // console.log(this.loginForm);
   }
 }
